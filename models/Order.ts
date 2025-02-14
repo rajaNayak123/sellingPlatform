@@ -27,7 +27,7 @@ export interface IOrder {
     updatedAt?: Date;
   }
 
-const orderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema<IOrder>({
     userId:{
         type:Schema.Types.ObjectId,
         ref:"User",
