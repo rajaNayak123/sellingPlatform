@@ -3,7 +3,7 @@ import { NextRequest,NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOption'
 import { connectToDatabase } from '@/lib/db'
-import { Currency } from 'lucide-react'
+// import { Currency } from 'lucide-react'
 import Order from '@/models/Order'
 
 const rezorpay = new Rezorpay({
@@ -34,7 +34,7 @@ export async function POST(req:NextRequest){
 
       // create rezorpay order
       const order = await rezorpay.orders.create({
-        amount: variant.price*100,
+        amount: Math.round(variant.price*100),
         currency:"USD",
         receipt:`receipt ${Date.now()}`,
         notes:{
@@ -42,6 +42,7 @@ export async function POST(req:NextRequest){
         }
       })
 
+      // create order in database
       const newOrder = await Order.create({
         userId: session.user.id,
         productId,

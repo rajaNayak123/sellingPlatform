@@ -20,7 +20,7 @@ export async function GET(){
         .populate({
             path:"productId",
             select:"name imageUrl",
-            options:{strictPopulate:false}
+            options:{strictPopulate:false} // its return null if no product is found
         })
         .sort({createdAt:-1})
         .lean()

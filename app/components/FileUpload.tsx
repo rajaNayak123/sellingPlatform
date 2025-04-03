@@ -3,7 +3,7 @@ import { IKUpload } from "imagekitio-next";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
 import { useState } from "react";
 
-export default function FileUpload({onSuccess,}: {onSuccess: (res: IKUploadResponse) => void;}) {
+export default function FileUpload({onSuccess}: {onSuccess: (res: IKUploadResponse) => void;}) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

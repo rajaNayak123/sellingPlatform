@@ -22,7 +22,9 @@ export async function GET(request:NextRequest, props:{params:Promise<{id:string}
             {product},
             {status:200}
         )
-    } catch (error) {
+    } catch (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        error) {
         return NextResponse.json(
             {error:"Failed to fetch product"},
             {status:500}

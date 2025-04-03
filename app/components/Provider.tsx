@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { ImageKitProvider, IKImage } from "imagekitio-next";
+import { ImageKitProvider } from "imagekitio-next"; 
 import { SessionProvider } from "next-auth/react";
 import { NotificationProvider } from "./Notification";
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
@@ -21,7 +21,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       const data = await response.json();
       const { signature, expire, token } = data;
       return { signature, expire, token };
-    } catch (error) {
+    } catch (
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      error) {
       throw new Error(`Authentication request failed`);
     }
   };
