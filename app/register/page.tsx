@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotification } from "../components/Notification";
@@ -21,7 +20,7 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch("api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

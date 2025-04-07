@@ -1,46 +1,58 @@
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/models/User";
 import { connectToDatabase } from "@/lib/db";
+// import bcrypt from "bcryptjs"
 
-export async function POST(request:NextRequest){
-    try {
-        const {email, password} = await request.json();
-    
-        if(!email || !password){
-            return NextResponse.json(
-                {error:"Email and password are required"},
-                {status:400}
-            )
-        }
+export async function POST(request: NextRequest) {
+    console.log("Received a request at /api/auth/register");
 
-       await connectToDatabase();
+  try {
+    const { email, password } = await request.json();
+    console.log("User Data:", { email, password });
 
-     const existUser = await User.findOne({email});
-
-     if(existUser){
-        return NextResponse.json(
-            {error:"User already exists"},
-            {status:400}
-        )
-     }
-
-    await User.create({
-        email: email,
-        password: password
-     })
-
-     return NextResponse.json(
-        {messge:"User created successfully"},
-        {status:201}
-     )
-    } catch (error) {
-        console.log(error);
-        
-        return NextResponse.json(
-            {message:" Failed while user register"},
-            {status:50}
-        )
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
+      );
     }
 
+    await connectToDatabase();
+    console.log("Connected to MongoDB");
 
+    const existUser = await User.findOne({ email });
+
+    if (existUser) {
+        console.log("User already exists:", email);
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 400 }
+      );
+    }
+
+    console.log("Creating user...");
+    const newUser = await User.create({
+        email: email,
+        password,
+        role: "user",
+      });
+
+    console.log("User registered successfully", newUser);
+    return NextResponse.json(
+      { message: "User registered successfully" },
+      { status: 201 }
+    );
+  } catch (error) {
+    // console.log(error);
+
+    // return NextResponse.json(
+    //     {message:" Failed while user register"},
+    //     {status:500}
+    // )
+    console.error("Error during registration:", error);
+    return NextResponse.json(
+      { error: "Failed to register user" },
+      { status: 500 }
+    );
+  }
 }

@@ -13,8 +13,7 @@ export default function Home(){
         const data = await apiClient.getProducts();
         setProduct(data);
       } catch (error) {
-        console.log(error);
-        
+        console.log("error fetching product in homepage",error); 
       }
     }
     fetchProducts()
